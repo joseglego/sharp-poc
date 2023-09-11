@@ -9,6 +9,9 @@ const PNGS = ['png']
 const QUALITY = 80
 
 async function main () {
+  const args = process.argv;
+  const quality = args[2] ? +args[2] : QUALITY
+
   fs.readdir(inputFolder, async function (err, files) {
     if (err) {
       return console.log('Unable to scan directory: ' + err);
@@ -19,14 +22,14 @@ async function main () {
       const name = file.split('.').shift()
       const extension = file.split('.').pop().toLowerCase()
       const inputFile = path.join(__dirname, '..', 'input', file)
-      const outputFile = path.join(__dirname, '..', 'output', `${name}_${QUALITY.toString().padStart(3, '0')}.${extension}`)
+      const outputFile = path.join(__dirname, '..', 'output', `${name}_${quality.toString().padStart(3, '0')}.${extension}`)
 
       if (JPGS.includes(extension)) {
         console.log(`Processing: ${file}`)
         await sharp(inputFile)
           .jpeg({
             mozjpeg: true,
-            quality: QUALITY,
+            quality: quality,
           })
           .toFile(outputFile);
 
@@ -35,7 +38,7 @@ async function main () {
         await sharp(inputFile)
           .png({
             palette: true,
-            quality: QUALITY,
+            quality: quality,
             effort: 8,
             compressionLevel: 9
           })
