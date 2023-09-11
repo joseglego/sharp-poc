@@ -16,9 +16,10 @@ async function main () {
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
-      const extension = file.split('.').pop().toLowerCase();
+      const name = file.split('.').shift()
+      const extension = file.split('.').pop().toLowerCase()
       const inputFile = path.join(__dirname, '..', 'input', file)
-      const outputFile = path.join(__dirname, '..', 'output', file)
+      const outputFile = path.join(__dirname, '..', 'output', `${name}_${QUALITY.toString().padStart(3, '0')}.${extension}`)
 
       if (JPGS.includes(extension)) {
         console.log(`Processing: ${file}`)
