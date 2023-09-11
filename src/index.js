@@ -6,6 +6,7 @@ const inputFolder = path.join(__dirname, '..', 'input');
 
 const JPGS = ['jpg', 'jpeg']
 const PNGS = ['png']
+const QUALITY = 80
 
 async function main () {
   fs.readdir(inputFolder, async function (err, files) {
@@ -23,7 +24,8 @@ async function main () {
         console.log(`Processing: ${file}`)
         await sharp(inputFile)
           .jpeg({
-            mozjpeg: true
+            mozjpeg: true,
+            quality: QUALITY,
           })
           .toFile(outputFile);
 
@@ -31,7 +33,10 @@ async function main () {
         console.log(`Processing: ${file}`)
         await sharp(inputFile)
           .png({
-            compressionLevel: 7
+            palette: true,
+            quality: QUALITY,
+            effort: 8,
+            compressionLevel: 9
           })
           .toFile(outputFile);
       }
